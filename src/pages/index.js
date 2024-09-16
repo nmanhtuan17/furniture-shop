@@ -7,6 +7,7 @@ import SingleProduct from "./SingleProductPage";
 import Products from "./ProductsPage";
 import Login from "./Login";
 import Register from "./Register"
+import AdminPage from "./admin/Admin";
 export {
   About,
   Home,
@@ -16,5 +17,6 @@ export {
   SingleProduct,
   Products,
   Login,
-  Register
+  Register,
+  AdminPage
 };

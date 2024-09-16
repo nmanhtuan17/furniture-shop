@@ -8,6 +8,14 @@ class ApiService {
     baseURL: API_URL,
   });
 
+  async uploadImage(formData) {
+    return this.callApi("POST", 'photo', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }
+
   async post(endpoint, data, options = {}) {
     return this.callApi("POST", endpoint, data, options);
   }

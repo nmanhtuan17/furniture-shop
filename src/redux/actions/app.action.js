@@ -9,3 +9,7 @@ export const login = createAsyncThunk('auth/login', async (payload) => {
 export const register = createAsyncThunk('auth/register', async (payload) => {
   return await apiService.post('auth/register', payload)
 })
+
+export const getProducts = createAsyncThunk('product/get', async (payload) => {
+  return await apiService.get('products')
+})

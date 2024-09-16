@@ -1,5 +1,6 @@
 import React from "react";
 import { FaShoppingCart, FaUserMinus, FaUserPlus } from "react-icons/fa";
+import { FiLogOut, FiLogIn  } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useProductsContext } from "../context/products_context";
@@ -12,10 +13,11 @@ const CartButtons = () => {
   const { total_items } = useCartContext();
   const {loggedIn} = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const handleLogout = () => {
     dispatch(logout())
+    navigate('/auth/login')
   }
-  const navigate = useNavigate()
 
   return (
     <Wrapper className="cart-btn-wrapper">
@@ -34,14 +36,14 @@ const CartButtons = () => {
           onClick={handleLogout}
         >
           Logout
-          <FaUserMinus />
+          <FiLogOut />
         </button>
       ) : (
         <button type="button" className="auth-btn" onClick={() => {
           navigate('/login')
         }}>
           Login
-          <FaUserPlus />
+          <FiLogIn />
         </button>
       )}
     </Wrapper>

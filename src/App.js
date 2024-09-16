@@ -11,7 +11,8 @@ import {
   Checkout,
   SingleProduct,
   Products,
-  Login, Register
+  Login, Register,
+  AdminPage
 } from "./pages";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
@@ -28,6 +29,7 @@ function App() {
           <Sidebar /> */}
           <Routes>
             <Route path="/" >
+              <Route path="admin" element={<AdminPage />} />
               <Route exact path="" element={<MainLayout />} >
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/about" element={<About />} />

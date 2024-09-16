@@ -6,9 +6,11 @@ import { appMiddleware } from "./middlewares/app.middleware";
 import { appSlice } from "./slices/app.slice";
 import { authSlice } from "./slices/auth.slice";
 import storage from 'redux-persist/lib/storage'
+import { productSilce } from "./slices/product.slice";
 const reducers = combineReducers({
   app: appSlice.reducer,
-  auth: authSlice.reducer
+  auth: authSlice.reducer,
+  product: productSilce.reducer
 });
 
 const persistedReducer = persistReducer({

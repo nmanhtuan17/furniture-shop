@@ -3,6 +3,9 @@
 Variables
 ===============
 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   /* dark shades of primary color*/
