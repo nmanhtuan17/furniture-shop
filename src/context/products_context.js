@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useContext, useEffect, useReducer } from "react";
 import reducer from "../reducers/products_reducer";
 import { products_url as url } from "../utils/constants";
-import Client from "../utils/contentful";
 import {
   SIDEBAR_OPEN,
   SIDEBAR_CLOSE,
@@ -53,23 +52,23 @@ export const ProductsProvider = ({ children }) => {
   };
 
   const fetchProducts = async () => {
-    dispatch({ type: GET_PRODUCTS_BEGIN });
-    try {
-      // get content from contentful
-      const response = await Client.getEntries({
-        content_type: "cozySpaceProducts",
-        order: "fields.price",
-      });
-      const products = formateProductsData(response.items);
+    // dispatch({ type: GET_PRODUCTS_BEGIN });
+    // try {
+    //   // get content from contentful
+    //   const response = await Client.getEntries({
+    //     content_type: "cozySpaceProducts",
+    //     order: "fields.price",
+    //   });
+    //   const products = formateProductsData(response.items);
 
-      // get content from course api
-      // const response = await axios.get(url);
-      // const products = response.data;
+    //   // get content from course api
+    //   // const response = await axios.get(url);
+    //   // const products = response.data;
 
-      dispatch({ type: GET_PRODUCTS_SUCCESS, payload: products });
-    } catch (error) {
-      dispatch({ type: GET_PRODUCTS_ERROR });
-    }
+    //   dispatch({ type: GET_PRODUCTS_SUCCESS, payload: products });
+    // } catch (error) {
+    //   dispatch({ type: GET_PRODUCTS_ERROR });
+    // }
   };
   const formateSingleProductsData = (entry, url) => {
     let tempProduct = entry.fields;
@@ -80,17 +79,17 @@ export const ProductsProvider = ({ children }) => {
   };
 
   const fetchSingleProduct = async (url) => {
-    dispatch({ type: GET_SINGLE_PRODUCT_BEGIN });
-    try {
-      const entry = await await Client.getEntry(url);
-      const product = formateSingleProductsData(entry, url);
-      // course api
-      // const response = await axios.get(url);
-      // const product = response.data;
-      dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: product });
-    } catch (error) {
-      dispatch({ type: GET_SINGLE_PRODUCT_ERROR });
-    }
+    // dispatch({ type: GET_SINGLE_PRODUCT_BEGIN });
+    // try {
+    //   const entry = await await Client.getEntry(url);
+    //   const product = formateSingleProductsData(entry, url);
+    //   // course api
+    //   // const response = await axios.get(url);
+    //   // const product = response.data;
+    //   dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: product });
+    // } catch (error) {
+    //   dispatch({ type: GET_SINGLE_PRODUCT_ERROR });
+    // }
   };
 
   return (

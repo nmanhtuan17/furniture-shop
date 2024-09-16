@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { useCartContext } from "../context/cart_context";
 import { formatPrice } from "../utils/helpers";
 import { Link } from "react-router-dom";
-
+import { useAppSelector } from "../redux/store";
 const CartTotals = () => {
   const { total_amount, shipping_fee } = useCartContext();
+  const {account, loggedIn} = useAppSelector(state => state.auth)
+
   return (
     <Wrapper>
       <div>
@@ -22,12 +24,14 @@ const CartTotals = () => {
             <span>{formatPrice(total_amount + shipping_fee)}</span>
           </h4>
         </article>
-        {myUser ? (
+        {loggedIn ? (
           <Link to="/checkout" className="btn">
             proceed to payment
           </Link>
         ) : (
-          <button type="button" className="btn" onClick={loginWithRedirect}>
+          <button type="button" className="btn" onClick={() => {
+            
+          }}>
             login
           </button>
         )}

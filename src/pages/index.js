@@ -3,17 +3,18 @@ import Home from "./HomePage";
 import Cart from "./CartPage";
 import Error from "./ErrorPage";
 import Checkout from "./CheckoutPage";
-import PrivateRoute from "./PrivateRoute";
 import SingleProduct from "./SingleProductPage";
 import Products from "./ProductsPage";
-
+import Login from "./Login";
+import Register from "./Register"
 export {
   About,
   Home,
   Cart,
   Error,
   Checkout,
-  PrivateRoute,
   SingleProduct,
   Products,
+  Login,
+  Register
 };

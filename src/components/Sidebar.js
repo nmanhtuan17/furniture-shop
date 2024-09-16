@@ -6,9 +6,11 @@ import { FaTimes } from "react-icons/fa";
 import { links } from "../utils/constants";
 import styled from "styled-components";
 import CartButtons from "./CartButtons";
+import { useAppSelector } from "../redux/store";
 
 const Sidebar = () => {
   const { closeSidebar, isSidebarOpen } = useProductsContext();
+  const {account, loggedIn} = useAppSelector(state => state.auth)
 
   return (
     <SidebarContainer>
@@ -32,7 +34,7 @@ const Sidebar = () => {
               </li>
             );
           })}
-          {myUser && (
+          {loggedIn && (
             <li>
               <Link to="/checkout" onClick={closeSidebar}>
                 checkout

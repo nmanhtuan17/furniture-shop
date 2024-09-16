@@ -1,13 +1,21 @@
 import React from "react";
 import { FaShoppingCart, FaUserMinus, FaUserPlus } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useProductsContext } from "../context/products_context";
 import { useCartContext } from "../context/cart_context";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import { logout } from "../redux/slices/auth.slice";
 
 const CartButtons = () => {
   const { closeSidebar } = useProductsContext();
   const { total_items } = useCartContext();
+  const {loggedIn} = useAppSelector(state => state.auth)
+  const dispatch = useAppDispatch()
+  const handleLogout = () => {
+    dispatch(logout())
+  }
+  const navigate = useNavigate()
 
   return (
     <Wrapper className="cart-btn-wrapper">
@@ -19,17 +27,19 @@ const CartButtons = () => {
         </span>
       </Link>
 
-      {myUser ? (
+      {loggedIn ? (
         <button
           type="button"
           className="auth-btn"
-          onClick={() => logout({ returnTo: window.location.origin })}
+          onClick={handleLogout}
         >
           Logout
           <FaUserMinus />
         </button>
       ) : (
-        <button type="button" className="auth-btn" onClick={loginWithRedirect}>
+        <button type="button" className="auth-btn" onClick={() => {
+          navigate('/login')
+        }}>
           Login
           <FaUserPlus />
         </button>

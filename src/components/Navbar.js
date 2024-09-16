@@ -6,9 +6,13 @@ import { Link } from "react-router-dom";
 import { links } from "../utils/constants";
 import CartButtons from "./CartButtons";
 import { useProductsContext } from "../context/products_context";
+import { useAppSelector } from "../redux/store";
 
 const Nav = () => {
   const { openSidebar } = useProductsContext();
+  const {account, loggedIn} = useAppSelector(state => state.auth)
+  
+
   return (
     <NavContainer>
       <div className="nav-center">
@@ -26,7 +30,7 @@ const Nav = () => {
               <Link to={link.url}>{link.text}</Link>
             </li>
           ))}
-          {myUser && (
+          {loggedIn && (
             <li>
               <Link to="/checkout">checkout</Link>
             </li>
