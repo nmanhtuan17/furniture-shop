@@ -26,9 +26,6 @@ export const AdminSideNav = () => {
   const [description, setDescription] = useState()
   const [stock_quantity, setQuantity] = useState(1)
 
-  console.log('====================================');
-  console.log(products);
-  console.log('====================================');
 
   const handleVerticalClick = (value) => {
     if (value === verticalActive) {
@@ -63,8 +60,8 @@ export const AdminSideNav = () => {
     setPhoto('')
     setName(undefined)
     setDescription(undefined)
-    setPhoto(undefined)
-    setQuantity(undefined)
+    setPrice(1000)
+    setQuantity(1)
     setIsModalOpen(false);
   };
 
@@ -83,8 +80,8 @@ export const AdminSideNav = () => {
   return (
     <div>
       <MDBRow>
-        <MDBCol size='2' className=' '>
-          <MDBTabs className='flex-column text-center bg-slate-500'>
+        <MDBCol size='2' className='bg-gray-400'>
+          <MDBTabs className='flex-column '>
             <MDBTabsItem>
               <MDBTabsLink onClick={() => handleVerticalClick('tab1')} active={verticalActive === 'tab1'}>
                 Sản phẩm
@@ -119,7 +116,7 @@ export const AdminSideNav = () => {
             <span className='col col-md-3'>
               Ảnh
             </span>
-            <input className='col' type='file' onChange={handleFileChange} />
+            <input className='col ps-0' type='file' onChange={handleFileChange} />
           </div>
           <div className='row my-1'>
             <span className='col col-md-3'>
@@ -133,7 +130,7 @@ export const AdminSideNav = () => {
             </span>
             <InputNumber
               onChange={(e) => setPrice(e)}
-              className='col'
+              className='col ps-0'
               defaultValue={1000}
               value={price}
               formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
@@ -151,7 +148,7 @@ export const AdminSideNav = () => {
             <span className='col col-md-3'>
               Số lượng:
             </span>
-            <InputNumber value={stock_quantity} onChange={(e) => setQuantity(e)} className='col' />
+            <Input type='number' min={1} value={stock_quantity} onChange={(e) => setQuantity(e.target.value)} className='col' />
           </div>
         </div>
       </Modal>

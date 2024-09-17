@@ -8,6 +8,7 @@ import Products from "./ProductsPage";
 import Login from "./Login";
 import Register from "./Register"
 import AdminPage from "./admin/Admin";
+import { EditProduct } from "./admin/components/EditProduct";
 export {
   About,
   Home,
@@ -18,5 +19,6 @@ export {
   Products,
   Login,
   Register,
-  AdminPage
+  AdminPage,
+  EditProduct
 };

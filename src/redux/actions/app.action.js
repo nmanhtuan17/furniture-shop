@@ -13,3 +13,4 @@ export const register = createAsyncThunk('auth/register', async (payload) => {
 export const getProducts = createAsyncThunk('product/get', async (payload) => {
   return await apiService.get('products')
 })
+
