@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { useProductsContext } from "../context/products_context";
 import { single_product_url as url } from "../utils/constants";
 import { formatPrice } from "../utils/helpers";
 import {
@@ -15,51 +14,23 @@ import styled from "styled-components";
 
 const SingleProductPage = () => {
   const { id } = useParams();
-  // const history = useHistory();
-  const {
-    single_product_loading: loading,
-    single_product_error: error,
-    single_product: product,
-    fetchSingleProduct,
-  } = useProductsContext();
 
   useEffect(() => {
-    // use course api
-    // fetchSingleProduct(`${url}${id}`);
 
-    //use contentful api
-    fetchSingleProduct(`${id}`);
   }, [id]);
 
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        // history.push("/");
-      }, 3000);
-    }
-  }, [error]);
-  if (loading) {
-    return <Loading />;
-  }
-  if (error) {
-    return <Error />;
-  }
+  // useEffect(() => {
+  //   if (error) {
+  //     setTimeout(() => {
+  //       // history.push("/");
+  //     }, 3000);
+  //   }
+  // }, [error]);
 
-  const {
-    name,
-    price,
-    description,
-    stock,
-    stars,
-    reviews,
-    id: sku,
-    company,
-    images,
-  } = product;
   return (
     <Wrapper>
-      <PageHero title={name} product />
-      <div className="section section-center page">
+      {/* <PageHero title={name} product /> */}
+      {/* <div className="section section-center page">
         <Link to="/" className="btn">
           Back to home
         </Link>
@@ -86,7 +57,7 @@ const SingleProductPage = () => {
             {stock > 0 && <AddToCart product={product} />}
           </section>
         </div>
-      </div>
+      </div> */}
     </Wrapper>
   );
 };

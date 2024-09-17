@@ -1,22 +1,13 @@
 import React from "react";
-import { useProductsContext } from "../context/products_context";
 import styled from "styled-components";
 import Error from "./Error";
 import Loading from "./Loading";
 import Product from "./Product";
+import { useAppSelector } from "../redux/store";
 
 const FeaturedProducts = () => {
-  const {
-    products_loading: loading,
-    featured_products: featured,
-    products_error: error,
-  } = useProductsContext();
-  if (loading) {
-    return <Loading />;
-  }
-  if (error) {
-    return <Error />;
-  }
+  const {products} = useAppSelector(state => state.product)
+
   return (
     <Wrapper className="section">
       <div className="title">
@@ -24,8 +15,8 @@ const FeaturedProducts = () => {
         <div className="underline"></div>
       </div>
       <div className="section-center featured">
-        {featured.slice(0, 3).map((product) => {
-          return <Product key={product.id} {...product} />;
+        {products.slice(0, 3).map((product) => {
+          return <Product key={product._id} {...product} />;
         })}
       </div>
     </Wrapper>

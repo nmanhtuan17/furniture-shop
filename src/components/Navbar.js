@@ -5,11 +5,9 @@ import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { links } from "../utils/constants";
 import CartButtons from "./CartButtons";
-import { useProductsContext } from "../context/products_context";
 import { useAppSelector } from "../redux/store";
 
 const Nav = () => {
-  const { openSidebar } = useProductsContext();
   const {account, loggedIn} = useAppSelector(state => state.auth)
   
 
@@ -20,9 +18,6 @@ const Nav = () => {
           <Link to="/">
             <img src={logo} alt="cozy home" width="50%" height="50%" />
           </Link>
-          <button type="button" className="nav-toggle" onClick={openSidebar}>
-            <FaBars />
-          </button>
         </div>
         <ul className="nav-links">
           {links.map((link) => (

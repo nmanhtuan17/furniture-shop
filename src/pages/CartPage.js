@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { useCartContext } from "../context/cart_context";
 import { Link } from "react-router-dom";
 import { CartContent, PageHero } from "../components";
+import { useAppSelector } from "../redux/store";
 
 const CartPage = () => {
-  const { cart } = useCartContext();
+  const {cart} = useAppSelector(state => state.cart)
+
+
   if (cart.length < 1) {
     return (
       <Wrapper className="page-100">

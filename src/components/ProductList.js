@@ -1,10 +1,11 @@
 import React from "react";
-import { useFilterContext } from "../context/filter_context";
 import GridView from "./GridView";
 import ListView from "./ListView";
+import { useAppSelector } from "../redux/store";
 
 const ProductList = () => {
-  const { filtered_products: products, grid_view } = useFilterContext();
+  const {products} = useAppSelector(state => state.product)
+
   if (products.length === 0) {
     return (
       <h5 style={{ textTransform: "none" }}>
@@ -12,9 +13,9 @@ const ProductList = () => {
       </h5>
     );
   }
-  if (grid_view === false) {
-    return <ListView products={products} />;
-  }
+  // if (grid_view === false) {
+  //   return <ListView products={products} />;
+  // }
   return <GridView products={products}>product list</GridView>;
 };
 

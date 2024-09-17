@@ -1,7 +1,6 @@
 import React from "react";
 import logo from "../assets/logo2.png";
 import { Link } from "react-router-dom";
-import { useProductsContext } from "../context/products_context";
 import { FaTimes } from "react-icons/fa";
 import { links } from "../utils/constants";
 import styled from "styled-components";
@@ -9,42 +8,10 @@ import CartButtons from "./CartButtons";
 import { useAppSelector } from "../redux/store";
 
 const Sidebar = () => {
-  const { closeSidebar, isSidebarOpen } = useProductsContext();
   const {account, loggedIn} = useAppSelector(state => state.auth)
 
   return (
-    <SidebarContainer>
-      <aside
-        className={`${isSidebarOpen ? "sidebar show-sidebar" : "sidebar"}`}
-      >
-        <div className="sidebar-header">
-          <img src={logo} className="logo" alt="cozy home" />
-          <button className="close-btn" type="button" onClick={closeSidebar}>
-            <FaTimes />
-          </button>
-        </div>
-        <ul className="links">
-          {links.map((link) => {
-            const { id, url, text } = link;
-            return (
-              <li key={id}>
-                <Link to={url} onClick={closeSidebar}>
-                  {text}
-                </Link>
-              </li>
-            );
-          })}
-          {loggedIn && (
-            <li>
-              <Link to="/checkout" onClick={closeSidebar}>
-                checkout
-              </Link>
-            </li>
-          )}
-        </ul>
-        <CartButtons />
-      </aside>
-    </SidebarContainer>
+    <div></div>
   );
 };
 

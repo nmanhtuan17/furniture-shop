@@ -3,14 +3,10 @@ import { FaShoppingCart, FaUserMinus, FaUserPlus } from "react-icons/fa";
 import { FiLogOut, FiLogIn  } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useProductsContext } from "../context/products_context";
-import { useCartContext } from "../context/cart_context";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { logout } from "../redux/slices/auth.slice";
 
 const CartButtons = () => {
-  const { closeSidebar } = useProductsContext();
-  const { total_items } = useCartContext();
   const {loggedIn} = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -21,11 +17,11 @@ const CartButtons = () => {
 
   return (
     <Wrapper className="cart-btn-wrapper">
-      <Link to="/cart" className="cart-btn" onClick={closeSidebar}>
+      <Link to="/cart" className="cart-btn">
         Cart
         <span className="cart-container">
           <FaShoppingCart />
-          <span className="cart-value">{total_items}</span>
+          <span className="cart-value">10</span>
         </span>
       </Link>
 
