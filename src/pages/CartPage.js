@@ -5,10 +5,9 @@ import { CartContent, PageHero } from "../components";
 import { useAppSelector } from "../redux/store";
 
 const CartPage = () => {
-  const {cart} = useAppSelector(state => state.cart)
+  const {carts} = useAppSelector(state => state.cart)
 
-
-  if (cart.length < 1) {
+  if (carts.length < 1) {
     return (
       <Wrapper className="page-100">
         <div className="empty">

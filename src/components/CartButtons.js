@@ -8,6 +8,7 @@ import { logout } from "../redux/slices/auth.slice";
 
 const CartButtons = () => {
   const {loggedIn} = useAppSelector(state => state.auth)
+  const {carts} = useAppSelector(state => state.cart)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -21,7 +22,7 @@ const CartButtons = () => {
         Cart
         <span className="cart-container">
           <FaShoppingCart />
-          <span className="cart-value">10</span>
+          <span className="cart-value">{carts.length}</span>
         </span>
       </Link>
 

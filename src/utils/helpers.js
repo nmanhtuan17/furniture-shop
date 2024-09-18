@@ -1,8 +1,6 @@
-export const formatPrice = (number) => {
-  return new Intl.NumberFormat("en-us", {
-    style: "currency",
-    currency: "USD",
-  }).format(number / 100);
+export const formatPrice = (value) => {
+  // return `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return `$ ${value.toFixed(2)}`;
 };
 
 export const getUniqueValues = (data, type) => {
@@ -13,3 +11,8 @@ export const getUniqueValues = (data, type) => {
   }
   return ["all", ...new Set(uniqueValues)];
 };
+
+
+export const capitalizedStr  = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

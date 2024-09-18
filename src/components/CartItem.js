@@ -1,34 +1,97 @@
-import React from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import styled from "styled-components";
 import { formatPrice } from "../utils/helpers";
 import AmountButtons from "./AmountButtons";
 import { FaTrash } from "react-icons/fa";
+import apiService from "../services/api.service";
+import {useAppDispatch, useAppSelector} from "../redux/store";
+import {Image} from "antd";
+import {getCarts, getCategory} from "../redux/actions/app.action";
+import {Loading} from "./index";
 
-const CartItem = ({ id, image, name, color, price, amount }) => {
+const CartItem = ({ _id, product: productId, quantity }) => {
+  const {products} = useAppSelector(state => state.product)
+  const {account} = useAppSelector(state => state.auth)
+  const dispatch = useAppDispatch();
+  const [amount, setAmount] = useState(quantity);
+  const [loading, setLoading] = useState(false)
 
-  const increase = () => {
+  // useEffect(() => {
+  //   const timerId = setTimeout(() => {
+  //     updateQuantity()
+  //   }, 2000)
+  //   return () => {
+  //     clearTimeout(timerId);
+  //   }
+  // }, [amount]);
+
+  const product = useMemo(() => products.find(p => p._id === productId), [products, productId]);
+
+  const increase = async () => {
+    let tempAmount = amount + 1;
+    if (tempAmount > product?.stock_quantity) {
+      tempAmount = product?.stock_quantity;
+    }
+    setAmount(tempAmount);
+    if(!loading) {
+      setLoading(true)
+      await updateQuantity(tempAmount)
+      dispatch(getCarts())
+    }
+    setLoading(false)
   };
-  const decrease = () => {
+
+  const decrease = async () => {
+    let tempAmount = amount - 1;
+    if (tempAmount < 1) {
+      tempAmount = 1;
+    }
+    setAmount(tempAmount);
+    if(!loading) {
+      setLoading(true)
+      await updateQuantity(tempAmount)
+      dispatch(getCarts())
+    }
+    setLoading(false)
   };
+
+  const removeItem = async () => {
+    try {
+      await apiService.delete(`cart/${account._id}?cartId=${_id}`)
+      dispatch(getCarts())
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const updateQuantity = async (tempAmount) => {
+    try {
+      await apiService.put(`cart/${account._id}?cartId=${_id}`, {
+        product: productId,
+        user: account._id,
+        quantity: tempAmount,
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <Wrapper>
       <div className="title">
-        <img src={image} alt={name}></img>
+        <Image src={product?.photo} width={70} height={70} alt={product?.name} />
         <div>
-          <h5 className="name">{name}</h5>
-          <p className="color">
-            color : <span style={{ background: color }}></span>
-          </p>
-          <h5 className="price-small">{formatPrice(price)}</h5>
+          <h5 className="name">{product?.name}</h5>
+          <h5 className="price-small">{formatPrice(product?.price)}</h5>
         </div>
       </div>
-      <h5 className="price">{formatPrice(price)}</h5>
-      <AmountButtons amount={amount} increase={increase} decrease={decrease} />
-      <h5 className="subtotal">{formatPrice(price * amount)}</h5>
+      <h5 className="price">{formatPrice(product?.price)}</h5>
+      <AmountButtons amount={amount} increase={loading ? () => {} : increase} decrease={loading ? () => {} : decrease} />
+      <h5 className="subtotal">{formatPrice(product?.price * quantity)}</h5>
       <button
         type="button"
         className="remove-btn"
-        onClick={() => {}}
+        onClick={removeItem}
       >
         <FaTrash />
       </button>

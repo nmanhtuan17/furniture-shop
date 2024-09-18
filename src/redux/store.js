@@ -7,10 +7,12 @@ import { appSlice } from "./slices/app.slice";
 import { authSlice } from "./slices/auth.slice";
 import storage from 'redux-persist/lib/storage'
 import { productSilce } from "./slices/product.slice";
+import { cartSlice } from "./slices/cart.slice";
 const reducers = combineReducers({
   app: appSlice.reducer,
   auth: authSlice.reducer,
-  product: productSilce.reducer
+  product: productSilce.reducer,
+  cart: cartSlice.reducer
 });
 
 const persistedReducer = persistReducer({
@@ -31,4 +33,3 @@ export const persistor = persistStore(store);
 
 export const useAppDispatch = () => useDispatch();
 export const useAppSelector = useSelector;
-

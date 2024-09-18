@@ -32,7 +32,7 @@ const GridView = ({ products }) => {
       <div className="products-container">
         {temProducts &&
           temProducts.map((product) => {
-            return <Product key={product.id} {...product} />;
+            return <Product key={product._id} {...product} />;
           })}
       </div>
       <Pagenation

@@ -21,6 +21,7 @@ import { AuthHelper } from "./components/Helper/AuthHelper";
 import { MainLayout } from "./layout/MainLayout";
 
 function App() {
+
   return (
     <PersistGate persistor={persistor}>
       <Provider store={store}>

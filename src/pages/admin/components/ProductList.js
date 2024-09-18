@@ -4,9 +4,10 @@ import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../../services/api.service';
 import { getProducts } from '../../../redux/actions/app.action';
+import {capitalizedStr, formatPrice} from "../../../utils/helpers";
 const { Search } = Input;
 
-export const AdminProduct = ({ setIsModalOpen }) => {
+export const AdminProduct = ({ setIsModalOpen, setAddCategory }) => {
   const { products } = useAppSelector(state => state.product)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -14,11 +15,7 @@ export const AdminProduct = ({ setIsModalOpen }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [query, setQuery] = useState('');
 
-  const filteredProducts = useMemo(() => products.filter(product => product.name.toLowerCase().includes(query.toLowerCase())), [query])
-
-  console.log('====================================');
-  console.log(filteredProducts);
-  console.log('====================================');
+  const filteredProducts = useMemo(() => products.filter(product => product.name.toLowerCase().includes(query.toLowerCase())), [query, products])
 
   const handleDelete = async () => {
     const data = await apiService.delete(`products/${id}`)
@@ -32,7 +29,7 @@ export const AdminProduct = ({ setIsModalOpen }) => {
       setConfirmLoading(false);
       setId(undefined)
     }, 2000);
-    
+
   };
 
   const handleCancel = () => {
@@ -53,13 +50,21 @@ export const AdminProduct = ({ setIsModalOpen }) => {
         dataIndex: 'name',
         key: 'name',
         width: 250,
-        render: (text) => <a>{text}</a>,
+        render: (text) => <a>{capitalizedStr(text)}</a>,
+      },
+      {
+        title: 'Loại sản phẩm',
+        dataIndex: 'category',
+        key: 'category',
+        width: 200,
+        render: (text) => <a>{capitalizedStr(text)}</a>,
       },
       {
         title: 'Giá',
         dataIndex: 'price',
         key: 'price',
-        width: 150
+        width: 150,
+        render: (text) => <p>{formatPrice(text)}</p>,
       },
       {
         title: 'Số lượng',
@@ -68,7 +73,7 @@ export const AdminProduct = ({ setIsModalOpen }) => {
         width: 100
       },
       {
-        title: 'Giới thiệu',
+        title: 'Mô tả',
         key: 'description',
         dataIndex: 'description',
         width: 700
@@ -86,7 +91,7 @@ export const AdminProduct = ({ setIsModalOpen }) => {
         ),
       },
     ]
-  ), [])
+  ), [filteredProducts])
 
   return (
     <div className='mt-3'>
@@ -95,7 +100,7 @@ export const AdminProduct = ({ setIsModalOpen }) => {
       }}>
         Quản lý sản phẩm
       </div>
-      <div className='flex row items-center my-3'>
+      <div className='flex row items-center my-3 gap-1'>
         <Search
           className='col col-md-3'
           placeholder="Search..."
@@ -106,6 +111,7 @@ export const AdminProduct = ({ setIsModalOpen }) => {
           }}
         />
         <Button onClick={setIsModalOpen} className='col col-md-1' type="primary">Add product</Button>
+        <Button onClick={setAddCategory} className='col col-md-1' type="primary">Add category</Button>
       </div>
       <Table
         pagination={false}

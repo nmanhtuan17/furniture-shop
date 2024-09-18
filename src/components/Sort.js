@@ -1,29 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsFillGridFill, BsList } from "react-icons/bs";
 import styled from "styled-components";
+import { useAppSelector } from "../redux/store";
+import {useFilterContext} from "../pages/ProductsPage";
 const Sort = () => {
-  // const {
-  //   filtered_products: products,
-  //   grid_view,
-  //   setGridView,
-  //   setListView,
-  //   sort,
-  //   updateSort,
-  // } = useFilterContext();
+  const {products} = useFilterContext()
+  const [gridView, setGridview] = useState(true);
   return (
     <Wrapper>
       <div className="btn-container">
         <button
           type="button"
-          onClick={() => {}}
-          className={`${true ? "active" : null}`}
+          onClick={() => {setGridview(true)}}
+          className={`${gridView ? "active" : null}`}
         >
           <BsFillGridFill />
         </button>
         <button
           type="button"
-          onClick={setListView}
-          className={`${!true ? "active" : null}`}
+          onClick={() => {setGridview(false)}}
+          className={`${!gridView ? "active" : null}`}
         >
           <BsList />
         </button>
@@ -35,9 +31,9 @@ const Sort = () => {
         <select
           name="sort"
           id="sort"
-          value={sort}
+          value={''}
           className="sort-input"
-          onChange={updateSort}
+          onChange={() => {}}
         >
           <option value="price-lowest">price (lowest)</option>
           <option value="price-highest">price (highest)</option>

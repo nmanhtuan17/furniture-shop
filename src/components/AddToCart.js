@@ -1,20 +1,23 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { FaCheck } from "react-icons/fa";
 import AmountButtons from "./AmountButtons";
+import {useAppDispatch, useAppSelector} from "../redux/store";
+import {addToCart} from "../redux/actions/app.action";
 
 const AddToCart = ({ product }) => {
-  const { id, stock, colors = [] } = product;
-
-  const [mainColor, setMainColor] = useState(colors[0]);
+  const { _id, stock_quantity } = product;
   const [amount, setAmount] = useState(1);
+  const dispatch = useAppDispatch();
+  const {account, loggedIn} = useAppSelector(state => state.auth)
+  const navigate = useNavigate();
 
   const increase = () => {
     setAmount((olaAmount) => {
       let tempAmount = olaAmount + 1;
-      if (tempAmount > stock) {
-        tempAmount = stock;
+      if (tempAmount > stock_quantity) {
+        tempAmount = stock_quantity;
       }
       return tempAmount;
     });
@@ -30,27 +33,20 @@ const AddToCart = ({ product }) => {
     });
   };
 
+  const handleAddToCart = async () => {
+    if(!loggedIn) {
+      navigate('auth/login')
+    } else {
+      dispatch(addToCart({
+        product: _id,
+        user: account._id,
+        quantity: amount,
+      }))
+    }
+  }
+
   return (
     <Wrapper>
-      <div className="colors">
-        <span>Colors : </span>
-        <div>
-          {colors.map((color, index) => {
-            return (
-              <button
-                className={`${
-                  color === mainColor ? "color-btn active" : "color-btn"
-                }`}
-                key={index}
-                style={{ background: color }}
-                onClick={() => setMainColor(color)}
-              >
-                {mainColor === color ? <FaCheck /> : null}
-              </button>
-            );
-          })}
-        </div>
-      </div>
       <div className="btn-contaioner">
         <AmountButtons
           amount={amount}
@@ -60,7 +56,7 @@ const AddToCart = ({ product }) => {
         <Link
           to="/cart"
           className="btn"
-          onClick={() => addToCart(id, mainColor, amount, product)}
+          onClick={handleAddToCart}
         >
           add to cart
         </Link>

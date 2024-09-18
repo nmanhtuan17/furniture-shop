@@ -1,20 +1,45 @@
-import React from "react";
+import React, {useState, useMemo, useContext, createContext} from "react";
 import styled from "styled-components";
 import { Filters, ProductList, Sort, PageHero } from "../components";
+import { useAppSelector } from "../redux/store";
+import { SortPrice } from "../types";
+
+const FilterContext =  createContext({})
+export const useFilterContext = () => useContext(FilterContext)
 
 const ProductsPage = () => {
+  const [filter, setFilter] = useState({
+    query: '',
+    gridView: true,
+    sort: SortPrice.HIGHT,
+    price: 10000
+  })
+  const {products} = useAppSelector(state => state.product)
+
+  const filteredProducts = useMemo(() => products.filter((product) => {
+    const matchesName = product.name.toLowerCase().includes(filter?.query?.toLowerCase() || '');
+    const matchesPrice = product.price >= 0 && product.price <= filter.price;
+    return matchesName && matchesPrice;
+  }), [filter])
+
   return (
     <main>
-      <PageHero title="Products" />
-      <Wrapper className="page">
-        <div className="section-center products">
-          <Filters />
-          <div>
-            <Sort />
-            <ProductList />
+      <FilterContext.Provider value={{
+        filter,
+        setFilter,
+        products: filteredProducts
+      }}>
+        <PageHero title="Products" />
+        <Wrapper className="page">
+          <div className="section-center products">
+            <Filters />
+            <div>
+              <Sort />
+              <ProductList />
+            </div>
           </div>
-        </div>
-      </Wrapper>
+        </Wrapper>
+      </FilterContext.Provider>
     </main>
   );
 };

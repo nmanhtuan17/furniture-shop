@@ -7,13 +7,15 @@ import {
   MDBRow,
   MDBCol
 } from 'mdb-react-ui-kit';
-import React, { useState } from 'react';
+import React, {useMemo, useState} from 'react';
 import { AdminProduct } from '../pages/admin/components/ProductList';
 import { OrderList } from '../pages/admin/components/OrderList';
-import { Button, Modal, Input, InputNumber } from 'antd';
+import {Button, Modal, Input, InputNumber, Select} from 'antd';
 import apiService from '../services/api.service';
 import { useAppDispatch, useAppSelector } from '../redux/store';
-import { getProducts } from '../redux/actions/app.action';
+import {getCategory, getProducts} from '../redux/actions/app.action';
+import {toast} from "react-toastify";
+import {capitalizedStr, formatPrice} from "../utils/helpers";
 
 export const AdminSideNav = () => {
   const dispatch = useAppDispatch()
@@ -25,6 +27,15 @@ export const AdminSideNav = () => {
   const [price, setPrice] = useState(1000)
   const [description, setDescription] = useState()
   const [stock_quantity, setQuantity] = useState(1)
+  const [category, setCategory] = useState('')
+  const [addCategory, setAddCategory] = useState(false)
+
+  const {category: allCategories} = useAppSelector(state => state.app)
+
+  const mappedCategory = useMemo(() => allCategories.map(c => ({
+    value: c.name,
+    label: capitalizedStr(c.name)
+  })), [allCategories])
 
 
   const handleVerticalClick = (value) => {
@@ -41,7 +52,8 @@ export const AdminSideNav = () => {
         name,
         price,
         description,
-        stock_quantity
+        stock_quantity,
+        category
       })
       setPhoto(undefined)
       setName(undefined)
@@ -77,6 +89,23 @@ export const AdminSideNav = () => {
     }
   };
 
+  const handleAddCategory = async () => {
+    if(category.length > 0) {
+      try {
+        await apiService.post('category', {
+          name: category
+        })
+        dispatch(getCategory())
+        setAddCategory(false)
+        setCategory('')
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      toast.error('category name is required')
+    }
+  }
+
   return (
     <div>
       <MDBRow>
@@ -97,7 +126,7 @@ export const AdminSideNav = () => {
         <MDBCol size='10'>
           <MDBTabsContent>
             <MDBTabsPane open={verticalActive === 'tab1'}>
-              <AdminProduct setIsModalOpen={() => setIsModalOpen(true)} />
+              <AdminProduct setIsModalOpen={() => setIsModalOpen(true)} setAddCategory={() => setAddCategory(true)} />
             </MDBTabsPane>
             <MDBTabsPane open={verticalActive === 'tab2'}>
               <OrderList />
@@ -116,39 +145,71 @@ export const AdminSideNav = () => {
             <span className='col col-md-3'>
               Ảnh
             </span>
-            <input className='col ps-0' type='file' onChange={handleFileChange} />
+            <input className='col ps-0' type='file' onChange={handleFileChange}/>
           </div>
           <div className='row my-1'>
             <span className='col col-md-3'>
               Tên sản phẩm:
             </span>
-            <Input className='col' value={name} onChange={(e) => setName(e.target.value)} />
+            <Input className='col' value={name} onChange={(e) => setName(e.target.value)}/>
+          </div>
+          <div className='row my-1'>
+            <span className='col col-md-3'>
+              Loại sản phẩm:
+            </span>
+            <Select
+              className='col col-lg-4 px-0'
+              defaultValue={mappedCategory[0].value}
+              onChange={(e) => {
+                setCategory(e)
+              }}
+              value={category}
+              options={mappedCategory}
+            />
           </div>
           <div className='row my-1'>
             <span className='col col-md-3'>
               Giá:
             </span>
             <InputNumber
+              prefix={<span className={'ps-2'}>$</span>}
               onChange={(e) => setPrice(e)}
               className='col ps-0'
-              defaultValue={1000}
+              defaultValue={100}
               value={price}
-              formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              parser={(value) => value?.replace(/\$\s?|(,*)/g, '')}
             />
           </div>
           <div className='row my-1'>
             <span className='col col-md-3'>
               Mô tả:
             </span>
-            <Input.TextArea value={description} onChange={(e) => setDescription(e.target.value)} className='col' />
+            <Input.TextArea value={description} onChange={(e) => setDescription(e.target.value)} className='col'/>
           </div>
 
           <div className='row my-1'>
             <span className='col col-md-3'>
               Số lượng:
             </span>
-            <Input type='number' min={1} value={stock_quantity} onChange={(e) => setQuantity(e.target.value)} className='col' />
+            <Input type='number' min={1} value={stock_quantity} onChange={(e) => setQuantity(e.target.value)}
+                   className='col'/>
+          </div>
+        </div>
+      </Modal>
+
+      <Modal title="Thêm loại sản phẩm"
+             centered
+             open={addCategory}
+             onOk={handleAddCategory}
+             onCancel={() => {
+               setAddCategory(false);
+               setCategory('')
+             }}>
+        <div className='gap-y-2'>
+          <div className='row my-1'>
+            <span className='col col-md-3'>
+              Tên:
+            </span>
+            <Input className='col' value={category} onChange={(e) => setCategory(e.target.value)} />
           </div>
         </div>
       </Modal>

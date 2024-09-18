@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {getCategory} from "../actions/app.action";
 
 
 const initialState = {
+  category: []
 };
 
 export const appSlice = createSlice({
@@ -10,6 +12,9 @@ export const appSlice = createSlice({
   reducers: {
   },
   extraReducers: (builder) => {
+    builder.addCase(getCategory.fulfilled, (state, action) => {
+      state.category = action.payload;
+    })
   }
 });
 

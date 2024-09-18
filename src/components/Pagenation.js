@@ -19,13 +19,13 @@ const Pagination = (props) => {
 
   return (
     <Wrapper>
-      <nav aria-label="Page navigation" className="pagination">
+      <nav aria-label="Page navigation" className="row mt-4">
         {[0, ...pages, pages.length + 1].map((page, index) => {
           if (page === 0) {
             return (
               <button
                 key={index}
-                className="page-link"
+                className="page-link col col-lg-1"
                 onClick={() => onLastPage()}
                 disabled={currentPage === 1 ? true : false}
               >
@@ -37,7 +37,7 @@ const Pagination = (props) => {
             return (
               <button
                 key={index}
-                className="page-link"
+                className="page-link col col-lg-1"
                 onClick={() => onNextPage()}
                 disabled={currentPage === pages.length ? true : false}
               >
@@ -49,7 +49,7 @@ const Pagination = (props) => {
             <button
               key={index}
               className={
-                page === currentPage ? "page-link active" : "page-link"
+                page === currentPage ? "page-link active col col-lg-1" : "page-link col col-lg-1"
               }
               onClick={() => onPageChange(page)}
             >
@@ -68,8 +68,8 @@ const Wrapper = styled.section`
     cursor: pointer;
     color: var(--clr-black);
     font-size: 15px;
-    margin: 5px;
-    padding: 5px;
+    margin: 3px;
+    padding: 3px;
     background-color: transparent;
   }
   .page-link:hover {

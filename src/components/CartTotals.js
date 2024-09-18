@@ -1,25 +1,42 @@
-import React from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import styled from "styled-components";
 import { formatPrice } from "../utils/helpers";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../redux/store";
+import {useMapData} from "../hooks/useMapData";
 const CartTotals = () => {
   const {account, loggedIn} = useAppSelector(state => state.auth)
+  const {carts} = useAppSelector(state => state.cart)
+  const {mappedData} = useMapData(carts)
+  const [subTotal, setSubTotal] = useState(0);
+  const [shippingFee, setShippingFee] = useState(5);
+
+  useEffect(() => {
+    calSubTotal()
+  }, [mappedData]);
+
+  const calSubTotal = () => {
+    let total = 0
+    mappedData.forEach(item => {
+      total += item.quantity * item.product.price
+    })
+    setSubTotal(total)
+  }
 
   return (
     <Wrapper>
       <div>
         <article>
           <h5>
-            subtotal : <span>123</span>
+            subtotal : <span>{formatPrice(subTotal)}</span>
           </h5>
           <p>
-            shipping fee : <span>123</span>
+            shipping fee : <span>{formatPrice(shippingFee)}</span>
           </p>
           <hr />
           <h4>
             order total :{" "}
-            <span>123</span>
+            <span>{formatPrice(subTotal + shippingFee)}</span>
           </h4>
         </article>
         {loggedIn ? (
@@ -28,7 +45,7 @@ const CartTotals = () => {
           </Link>
         ) : (
           <button type="button" className="btn" onClick={() => {
-            
+
           }}>
             login
           </button>
