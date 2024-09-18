@@ -41,12 +41,12 @@ function App() {
                 <Route exact path="/cart" element={<Cart />} />
                 <Route exact path="/products" element={<Products />} />
                 <Route exact path="/products/:id" element={<SingleProduct />} />
+                <Route exact path="/checkout" element={<Checkout />} />
               </Route>
               <Route path="auth/" >
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
               </Route>
-              {/* <PrivateRoute exact path="/checkout" element={<Checkout />} /> */}
               <Route exact path="*" element={<Error />} />
             </Route>
           </Routes>

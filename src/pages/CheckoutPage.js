@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { PageHero } from "../components";
 import {
@@ -10,6 +10,9 @@ import {
 } from "react-icons/fa";
 
 const CheckoutPage = () => {
+  const [phone, setPhone] = useState();
+
+
   return (
     <main>
       <PageHero title="checkout" />
@@ -24,56 +27,26 @@ const CheckoutPage = () => {
           <div className="info address">
             <h3>Billing Address</h3>
             <label className="label">
-              <FaUser />
-              <span> Full Name:</span>
+              <FaUser/>
+              <span> Họ tên:</span>
             </label>
-            <input type="text" name="first-name" placeholder="John Doe" />
+            <input type="text" name="first-name" placeholder="John Doe"/>
             <label className="label">
-              <FaEnvelope /> Email:
+              <FaEnvelope/> Số điện thoại:
             </label>
-            <input type="text" name="email" placeholder="john@example.com" />
+            <input type="number" name="email" placeholder="012345678"/>
             <label className="label">
-              <FaAddressCard /> Address:
+              <FaAddressCard/> Địa chỉ:
             </label>
             <input
               type="text"
               name="address"
-              placeholder="425/29 Collins st Melbourne"
+              placeholder="Nghiem Xuan Yem, Ha Noi"
             />
-            <label className="label">
-              <FaCity /> City:
-            </label>
-            <input type="text" name="city" placeholder="Melbourne" />
-            <label className="label">Zip:</label>
-            <input type="text" name="zip" placeholder="3000" />
-            <label className="label">State:</label>
-            <input type="text" name="state" placeholder="VIC" />
-            <label>
-              <input type="checkbox" name="sameadr" /> Shipping address same as
-              billing
-            </label>
-          </div>
-          <div className="info payment">
-            <h3>Payment</h3>
-            <label className="label">Name on Card:</label>
-            <input type="text" name="card-name" placeholder="John Doe" />
-            <label className="label">
-              <FaCreditCard /> Card Number:
-            </label>
-            <input
-              type="text"
-              name="card-number"
-              placeholder="1111-2222-3333-4444"
-            />
-            <label className="label">CVV:</label>
-            <input type="text" name="CVV" placeholder="666" />
-            <label className="label">Expiration Date:</label>
-            <input type="text" name="exp-date" placeholder="07/21" />
-
             <input
               className="btn place-order"
               type="submit"
-              value="Place Order"
+              value="Thanh toán"
             />
           </div>
         </form>

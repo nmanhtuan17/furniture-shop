@@ -26,21 +26,6 @@ const Sort = () => {
       </div>
       <p>{products.length} products found</p>
       <hr />
-      <form>
-        <label htmlFor="sort">Sort By</label>
-        <select
-          name="sort"
-          id="sort"
-          value={''}
-          className="sort-input"
-          onChange={() => {}}
-        >
-          <option value="price-lowest">price (lowest)</option>
-          <option value="price-highest">price (highest)</option>
-          <option value="name-a">name (a-z)</option>
-          <option value="name-z">name (z-a)</option>
-        </select>
-      </form>
     </Wrapper>
   );
 };
