@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { getUniqueValues, formatPrice } from "../utils/helpers";
 import { FaCheck } from "react-icons/fa";
 import { Input } from "antd";
-import {useFilterContext} from "../pages/ProductsPage";
-import {useAppSelector} from "../redux/store";
+import { useFilterContext } from "../pages/ProductsPage";
+import { useAppSelector } from "../redux/store";
 
 const Filters = () => {
-  const {filter, setFilter, products} = useFilterContext();
-  const {category: categories} = useAppSelector(state => state.app);
+  const { filter, setFilter, products } = useFilterContext();
+  const { category: categories } = useAppSelector(state => state.app);
 
   return (
     <Wrapper>
@@ -29,11 +29,15 @@ const Filters = () => {
                 <button
                   key={index}
                   type="button"
-                  // onClick={updateFilters}
+                  onClick={() => {
+                    setFilter({
+                      ...filter,
+                      category: item.name
+                    })
+                  }}
                   name="category"
-                // className={`${
-                //   category === c.toLowerCase() ? "active" : null
-                // }`}
+                  className={`${filter?.category?.toLowerCase() === item.name.toLowerCase() ? "active" : null
+                    }`}
                 >
                   {item.name}
                 </button>
@@ -56,7 +60,13 @@ const Filters = () => {
             />
           </div>
         </form>
-        <button type="button" className="clear-btn" onClick={() => { }}>
+        <button type="button" className="clear-btn" onClick={() => {
+          setFilter({
+            query: '',
+            category: '',
+            price: 10000
+          })
+        }}>
           clear filters
         </button>
       </div>

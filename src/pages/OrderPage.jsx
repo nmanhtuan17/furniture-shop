@@ -27,6 +27,7 @@ const OrderPage = () => {
   const dispatch = useAppDispatch()
   const { products } = useAppSelector(state => state.product)
   const {orders} = useAppSelector(state => state.order)
+  const {account} = useAppSelector(state => state.auth)
 
   const mappedData = useMemo(() => orders.map(o => ({
     ...o,
@@ -68,7 +69,25 @@ const OrderPage = () => {
         <span>{data.status}</span>
       ),
     },
+    {
+      title: '',
+        key: 'action',
+        render: (_, record) => (
+          <Space size="middle">
+            <Button onClick={() => handleCancel(record)} type="primary" danger >Hủy</Button>
+          </Space>
+        ),
+    },
   ]), [mappedData])
+
+  const handleCancel = async (data) => {
+    try {
+      await apiService.delete(`order/${account._id}?orderId=${data._id}`)
+      dispatch(getOrders())
+    } catch (error) {
+      toast.error('Failed')
+    }
+  }
 
   useEffect(() => {
     dispatch(getOrders())

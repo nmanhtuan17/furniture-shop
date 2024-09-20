@@ -10,8 +10,7 @@ export const useFilterContext = () => useContext(FilterContext)
 const ProductsPage = () => {
   const [filter, setFilter] = useState({
     query: '',
-    gridView: true,
-    sort: SortPrice.HIGHT,
+    category: '',
     price: 10000
   })
   const {products} = useAppSelector(state => state.product)
@@ -19,7 +18,8 @@ const ProductsPage = () => {
   const filteredProducts = useMemo(() => products.filter((product) => {
     const matchesName = product.name.toLowerCase().includes(filter?.query?.toLowerCase() || '');
     const matchesPrice = product.price >= 0 && product.price <= filter.price;
-    return matchesName && matchesPrice;
+    const matchesCate = filter.category.length > 0 ? product.category.toLowerCase() === filter.category.toLowerCase() : true
+    return matchesName && matchesPrice && matchesCate;
   }), [filter])
 
   return (
@@ -34,7 +34,6 @@ const ProductsPage = () => {
           <div className="section-center products">
             <Filters />
             <div>
-              <Sort />
               <ProductList />
             </div>
           </div>

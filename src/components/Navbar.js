@@ -30,6 +30,11 @@ const Nav = () => {
               <Link to="/order">Orders</Link>
             </li>
           )}
+          {loggedIn && account.isAdmin && (
+            <li>
+              <Link to="/admin">Admin Page</Link>
+            </li>
+          )}
         </ul>
         <CartButtons />
       </div>
