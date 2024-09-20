@@ -9,6 +9,7 @@ import Login from "./Login";
 import Register from "./Register"
 import AdminPage from "./admin/Admin";
 import { EditProduct } from "./admin/components/EditProduct";
+import Order from "./OrderPage";
 export {
   About,
   Home,
@@ -20,5 +21,6 @@ export {
   Login,
   Register,
   AdminPage,
-  EditProduct
+  EditProduct,
+  Order
 };

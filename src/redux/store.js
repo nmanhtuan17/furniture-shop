@@ -8,11 +8,13 @@ import { authSlice } from "./slices/auth.slice";
 import storage from 'redux-persist/lib/storage'
 import { productSilce } from "./slices/product.slice";
 import { cartSlice } from "./slices/cart.slice";
+import {orderSlice} from "./slices/order.slice";
 const reducers = combineReducers({
   app: appSlice.reducer,
   auth: authSlice.reducer,
   product: productSilce.reducer,
-  cart: cartSlice.reducer
+  cart: cartSlice.reducer,
+  order: orderSlice.reducer
 });
 
 const persistedReducer = persistReducer({

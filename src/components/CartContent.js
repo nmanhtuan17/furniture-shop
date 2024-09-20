@@ -1,13 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import CartColumns from "./CartColumns";
 import CartItem from "./CartItem";
 import CartTotals from "./CartTotals";
 import {useAppSelector} from "../redux/store";
 
 const CartContent = () => {
+  const {loggedId} = useAppSelector(state => state.auth)
   const {carts} = useAppSelector(state => state.cart);
+  const navigate = useNavigate();
 
   return (
     <Wrapper className="section section-center">

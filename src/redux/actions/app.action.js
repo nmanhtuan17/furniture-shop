@@ -30,3 +30,9 @@ export const addToCart = createAsyncThunk('cart/add', async (payload) => {
   const {account} = store.getState().auth
   return await apiService.post(`cart/${account._id}`, payload)
 })
+
+
+export const getOrders = createAsyncThunk('order/get', async (payload) => {
+  const {account} = store.getState().auth
+  return await apiService.get(`order/${account._id}`)
+})
