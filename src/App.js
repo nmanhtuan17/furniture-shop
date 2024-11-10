@@ -27,8 +27,6 @@ function App() {
       <Provider store={store}>
         <BrowserRouter>
           <AuthHelper />
-          {/* <Navbar />
-          <Sidebar /> */}
           <Routes>
             <Route path="/" >
               <Route path="admin/"  >
